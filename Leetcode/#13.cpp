@@ -27,3 +27,9 @@ public:
 
 // Runtime - 5ms
 // Memory - 12.38mb
+
+/*
+Other approach would be to introduce switch cases for all the 
+symbols along with their exception like "IV" or "IX", which 
+can result in faster runtime.
+*/
