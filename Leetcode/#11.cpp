@@ -13,6 +13,17 @@ public:
         }
         return maxArea;
     }
+
+    int maxAreaBruteForce(vector<int>& height) {
+        int maxArea = 0;
+        for(int i = 0; i < height.size(); i++) {
+            for(int j = i + 1; j < height.size(); j++) {
+                int area = (j - i) * (min(height[i], height[j]));
+                maxArea = max(maxArea, area);
+            }
+        }
+        return maxArea;
+    }
 };
 
 //TC - O(n)
