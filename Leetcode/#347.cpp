@@ -59,3 +59,36 @@ public:
 
 //O(3n)
 //O(n)
+
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        vector<int> result;
+        vector<vector<int>> buckets(nums.size() + 1);
+        unordered_map<int, int> freq;
+        for(int x : nums) {
+            freq[x]++;
+        }
+
+        for(auto element : freq) {
+            buckets[element.second].push_back(element.first);
+        }
+
+        for(int i = nums.size(); i >= 0 && result.size() < k; i--) {
+            for(int element : buckets[i]) {
+                result.push_back(element);
+                if(result.size() == k) {
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+};
+/* Priority Queue approach
+TC - O(n + nlogk + k * logk)
+SC - O(n + n)
+
+Bucket sort approach
+
+*/
