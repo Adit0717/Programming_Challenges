@@ -32,6 +32,36 @@ class Solution {
 	//SC - O(n + n)
 };
 
-class Solution {
-	
+class Solution {	
+	int houseRobber(vector<int>& nums) {
+		vector<int> dp(nums.size());
+		
+		dp[0] = nums[0];
+
+		for(int i = 1; i < nums.size(); i++) {
+			int take = nums[i];
+			if(i > 1) take += dp[i - 2];
+			int dontTake = dp[i - 1];
+			dp[i] = max(take, dontTake);
+		}
+		return dp[nums.size() - 1];
+	}
+}
+
+class Solution {	
+	int houseRobber(vector<int>& nums) {		
+		int prev2 = 0;
+		int prev1 = nums[0];
+
+		for(int i = 1; i < nums.size(); i++) {
+			int take = nums[i];
+			if(i > 1) take += prev2;
+			int dontTake = prev1;
+			int curr = max(take, dontTake);
+
+			prev2 = prev1;
+			prev1 = curr;						
+		}
+		return prev1;
+	}
 }

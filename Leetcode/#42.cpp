@@ -1,18 +1,24 @@
 class Solution {
 public:
     int trapBruteForce(vector<int>& height) {
-        int result = 0;
-        for(int i = 0; i < height.size(); i++) {
-            int leftMax = 0, rightMax = 0;
-            for(int j = i; j >= 0; j--) {
-                leftMax = max(leftMax, height[j]);
+        int n = height.size();
+        int totalWater = 0;
+
+        for (int i = 0; i < n; i++) {
+            int maxLeft = 0, maxRight = 0;
+
+            // Scan left of i
+            for (int j = 0; j <= i; j++) {
+                maxLeft = max(maxLeft, height[j]);
             }
-            for(int j = i; j < height.size(); j++) {
-                rightMax = max(rightMax, height[j]);
+
+            // Scan right of i
+            for (int j = i; j < n; j++) {
+                maxRight = max(maxRight, height[j]);
             }
-            if(height[i] < leftMax && height[i] < rightMax) {
-                result += min(leftMax, rightMax) - height[i];
-            }
+
+            int waterAtI = min(maxLeft, maxRight) - height[i];
+            totalWater += waterAtI;
         }
         return result;        
     }

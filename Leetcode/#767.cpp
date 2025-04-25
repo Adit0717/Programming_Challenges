@@ -45,5 +45,8 @@ result = '';
 
 "bfrbs"
 
+Another way would be to use MaxHeap {count, char}
+Pop top 2 characters -> form the result
+Reduce the frequency and push it back into the Heap
 */
 
