@@ -74,6 +74,36 @@ int fibonaaci2(int n) {
 	}
 	return second;
 }
+bool flag = false;
+void solveSumK(int index, vector<int> &nums, vector<int> &output, 
+	int k, int sum) {	
+	if(index >= nums.size()) {
+		if(sum == k && flag == false) {
+			for(int x : output) {
+				cout << x << " ";
+			}
+			cout << endl;
+			flag = true;
+		}
+		return;
+	}	
+	
+	output.push_back(nums[index]);
+	sum += nums[index];
+	solveSumK(index + 1, nums, output, k, sum);
+
+	output.pop_back();
+	sum -= nums[index];
+	solveSumK(index + 1, nums, output, k, sum);
+}
+
+void subsequenceSumK(vector<int> &nums, int k) {
+	vector<int> output;
+	int sum = 0;
+	solveSumK(0, nums, output, k, sum);
+}
+//TC - O(2 ^ n)
+//SC - O(n)
 
 int main() {	
 	//printName("aditya", 5);
@@ -82,8 +112,9 @@ int main() {
 	//int sum = sumofNNumbers(4);
 	//int prod = factorial(5);	
 	//reverseArray(nums, 0);
-	int sum = fibonaaci2(9);
-	cout << sum;
+	//int sum = fibonaaci2(9);
+	vector<int> nums = {1,2,1};
+	subsequenceSumK(nums, 2);
 }
 
 //OS last chat
