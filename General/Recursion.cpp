@@ -74,6 +74,7 @@ int fibonaaci2(int n) {
 	}
 	return second;
 }
+
 bool flag = false;
 void solveSumK(int index, vector<int> &nums, vector<int> &output, 
 	int k, int sum) {	
@@ -105,7 +106,41 @@ void subsequenceSumK(vector<int> &nums, int k) {
 //TC - O(2 ^ n)
 //SC - O(n)
 
-int main() {	
+void powerSet(vector<int> &input, vector<int> &result, int sum, int index) {
+	if(index == input.size()) {
+		result.push_back(sum);
+		return;
+	}
+	powerSet(input, result, sum + input[index], index + 1);
+	powerSet(input, result, sum, index + 1);
+}
+//TC - O(2^n)
+//SC - Stack space + result vector - O(n + 2^n)
+
+void permutations(vector<int> &input, unordered_set<int> &track,
+				  vector<vector<int>> &result, vector<int> &temp) {
+	if(temp.size() == input.size()) {
+		result.push_back(temp);
+		return;
+	}
+
+	for(int i = 0; i < input.size(); i++) {
+		if(track.find(i) == track.end()) {
+			track.insert(i);
+			temp.push_back(input[i]);
+			permutations(input, track, result, temp);
+			temp.pop_back();
+			track.erase(i);
+		}
+	}
+
+}
+
+void permutations2() {
+	
+}
+
+int main() {
 	//printName("aditya", 5);
 	//print1ToN(5);
 	//printNto1(1, 5);
@@ -113,8 +148,22 @@ int main() {
 	//int prod = factorial(5);	
 	//reverseArray(nums, 0);
 	//int sum = fibonaaci2(9);
-	vector<int> nums = {1,2,1};
-	subsequenceSumK(nums, 2);
+	//subsequenceSumK(nums, 2);
+	//powerSet(input, result, 0, 0);
+	int count = 1;
+	vector<vector<int>> result;
+	vector<int> input = {1,2,3};
+	vector<int> temp;
+	unordered_set<int> track;
+	permutations(input, track, result, temp);
+	for(int i = 0; i < result.size(); i++) {
+		cout << count << "." << " ";
+		for(int x : result[i]) {
+			cout << x << " ";
+		}
+		count++;
+		cout << endl;
+	}
 }
 
 //OS last chat
