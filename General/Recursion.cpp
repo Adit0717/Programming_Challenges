@@ -133,8 +133,10 @@ void permutations(vector<int> &input, unordered_set<int> &track,
 			track.erase(i);
 		}
 	}
-
 }
+//TC - O(n! * n)
+//SC - stack space + temp array + result + set
+//SC - n + k + N * k + k => O(n!*n)
 
 void permutations2() {
 	
