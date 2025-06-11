@@ -142,6 +142,35 @@ void permutations2() {
 	
 }
 
+void ratInAMaze(vector<vector<int>>& input, int row, int col, int n, vector<string>& result, string& temp, vector<vector<bool>>& visited) {
+	if(row < 0 || col < 0 || row >= n || col >= n || 
+	   input[row][col] == 0 || visited[row][col]) return;
+	
+	if(row == n - 1 && col == n - 1) {
+		result.push_back(temp);
+		return;
+	}
+	
+	visited[row][col] = true;
+	
+	vector<int> rows = {1, 0, 0, -1};
+	vector<int> cols = {0, -1, 1, 0};
+	string dir = "DLRU";
+
+	for(int i = 0; i < 4; i++) {
+		int dRow = row + rows[i];
+		int dCol = col + cols[i];
+		temp.push_back(dir[i]);
+		ratInAMaze(input, dRow, dCol, n, result, temp, visited); //down	
+		temp.pop_back();
+	}
+
+	visited[row][col] = false;
+}
+//Rat starts at (0,0) and needs to finish at (N-1, N-1)
+//TC - O(4^(n^2))
+//SC - O(n^2)
+
 int main() {
 	//printName("aditya", 5);
 	//print1ToN(5);
@@ -152,20 +181,7 @@ int main() {
 	//int sum = fibonaaci2(9);
 	//subsequenceSumK(nums, 2);
 	//powerSet(input, result, 0, 0);
-	int count = 1;
-	vector<vector<int>> result;
-	vector<int> input = {1,2,3};
-	vector<int> temp;
-	unordered_set<int> track;
-	permutations(input, track, result, temp);
-	for(int i = 0; i < result.size(); i++) {
-		cout << count << "." << " ";
-		for(int x : result[i]) {
-			cout << x << " ";
-		}
-		count++;
-		cout << endl;
-	}
+	//permutations(input, track, result, temp);
 }
 
 //OS last chat
