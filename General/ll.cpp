@@ -200,13 +200,86 @@ public:
 	}
 };
 
+class ListNode {
+public:
+	int val;
+  	ListNode *next;
+  	ListNode() : val(0), next(nullptr) {}
+  	ListNode(int x) : val(x), next(nullptr) {}
+  	ListNode(int x, ListNode *next) : val(x), next(next) {}
+
+  	static ListNode* reverse(ListNode* head) {
+  		ListNode* prev = nullptr;
+  		ListNode* curr = head;
+  		ListNode* after = curr;
+
+  		while(curr != nullptr) {
+  			after = after->next;
+  			curr->next = prev;
+  			prev = curr;
+  			curr = after;
+  		}
+  		return prev;
+  	}
+
+  	static void displayList(ListNode* head) {
+		if(head == nullptr) return;
+  		ListNode* temp = head;
+  		
+  		while(temp != nullptr) {
+  			string result = "";
+
+  			result = (temp->next == nullptr) ? "" : " -> ";
+  			cout << temp->val << result;
+  			temp = temp->next;
+  		}
+  		cout << endl;
+  	}
+
+  	static ListNode* addOne(ListNode* head) {
+  		if(head == nullptr) return head;	
+  		
+  		head = reverse(head);
+  		ListNode* temp = head;
+  		ListNode* prev = nullptr;
+  		int carry = 1;
+  		
+  		while(temp != nullptr) {
+  			int sum = temp->val + carry;
+  			carry = sum / 10;
+  			temp->val = sum % 10;
+
+  			prev = temp;
+  			temp = temp->next;
+  		}
+
+  		if(carry != 0) {
+  			prev->next = new ListNode(carry);
+  		}
+
+  		ListNode* result = reverse(head);
+  		return result;
+  	}
+};
+
 int main() {
 
+	ListNode* temp = new ListNode(9);
+	ListNode* head = temp;
+	temp->next = new ListNode(9);
+	temp = temp->next;
+	temp->next = new ListNode(9);
+
+	ListNode* result = ListNode::addOne(head);
+	ListNode::displayList(result);
+
+	/*
 	LinkedList* newList = new LinkedList(1);	
     newList->append(2);
     newList->append(3);
     newList->append(4);
     newList->append(5);
+	*/
 
     /*
     cout << "Length: " << newList->getLength() << endl;
@@ -226,12 +299,16 @@ int main() {
 
     newList->printList();
     */
+    /*
     newList->printList();
     cout << endl;
     newList->reverse();
     newList->printList();
 
     delete newList;
+    */
+
+
 
 	return 0;
 }

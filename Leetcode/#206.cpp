@@ -23,5 +23,18 @@ public:
         }
         return prev;
     }
+    //Recursive
+    ListNode* reverseList(ListNode* head) {
+        if(head == nullptr || head->next == nullptr)
+            return head;
+        ListNode* newHead = reverseList(head->next);
+
+        ListNode* temp = head->next;
+        temp->next = head;
+        head->next = nullptr;
+
+        return newHead;
+    }
 };
 //TC - O(n)
+//SC - O(n) for recursion
