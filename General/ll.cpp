@@ -264,6 +264,7 @@ public:
 
 int main() {
 
+	/*
 	ListNode* temp = new ListNode(9);
 	ListNode* head = temp;
 	temp->next = new ListNode(9);
@@ -272,6 +273,7 @@ int main() {
 
 	ListNode* result = ListNode::addOne(head);
 	ListNode::displayList(result);
+	*/
 
 	/*
 	LinkedList* newList = new LinkedList(1);	
@@ -308,7 +310,10 @@ int main() {
     delete newList;
     */
 
-
+	vector<char> ch = {'{', '}', '[', ']', '(', ')'};
+	for(int x : ch) {
+		cout << x << " ";
+	}
 
 	return 0;
 }
