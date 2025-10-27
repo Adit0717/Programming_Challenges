@@ -29,43 +29,22 @@ public:
     //SC - O(n)
 
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-        vector<int> result;
+        vector<int> result(nums1.size(), 0);
         unordered_map<int, int> mp;
-        stack<int> temp;
+        stack<int> st;
         
-        for(int i = nums2.size() - 1; i >= 0; i--) {
-            if(i == nums2.size() - 1) {
-                mp[nums2[i]] = -1;
-                temp.push(nums2[i]);
-                continue;
-            }
+        for(int i = nums2.size() - 1; i >= 0; i--) {            
+            while(!st.empty() && st.top() <= nums2[i]) st.pop();
 
-            int top = temp.top();
-            
-            while(top < nums2[i]) {
-                temp.pop();                
-                if(temp.empty()) {
-                    mp[nums2[i]] = -1;
-                    temp.push(nums2[i]);
-                    break;
-                }
-                top = temp.top();
-            }
-            
-            top = temp.top();
-
-            if(nums2[i] < top) {
-                mp[nums2[i]] = top;
-                temp.push(nums2[i]);
-            } else mp[nums2[i]] = -1;
+            if(st.empty()) mp[nums2[i]] = -1;
+            else mp[nums2[i]] = st.top();
+            st.push(nums2[i]);
         }
 
-        for(int i = 0; i < nums1.size(); i++) {
-            int num = nums1[i];
-
-            result.push_back(mp[num]);
+        for(int j = 0; j < nums1.size(); j++) {
+            result[j] = mp[nums1[j]];
         }
-        
+
         return result;
     }
     //TC - O(m + n)
