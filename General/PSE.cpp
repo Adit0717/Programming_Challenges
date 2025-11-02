@@ -2,7 +2,7 @@
 
 using namespace std;
 
-vector<int> nextSmallerElement(vector<int>& input) {
+vector<int> previousSmallerElement(vector<int>& input) {
 	vector<int> result(input.size(), 0);
 	stack<int> st;
 
@@ -22,7 +22,7 @@ vector<int> nextSmallerElement(vector<int>& input) {
 
 int main() {
 	vector<int> input = {4, 5, 2, 10, 8};
-	vector<int> output = nextSmallerElement(input);
+	vector<int> output = previousSmallerElement(input);
 
 	for(int x : output) {
 		cout << x << " ";
