@@ -81,3 +81,81 @@ public:
         return result;
     }
 };
+
+/*
+Minimum Time to Complete All Deliveries
+
+You are given two integer arrays of size 2: d = [d1, d2] and r = [r1, r2].
+Two delivery drones are tasked with completing a specific number of deliveries. Drone i must complete di deliveries.
+Each delivery takes exactly one hour and only one drone can make a delivery at any given hour.
+Additionally, both drones require recharging at specific intervals during which they cannot make deliveries. Drone i must recharge every ri hours (i.e. at hours that are multiples of ri).
+Return an integer denoting the minimum total time (in hours) required to complete all deliveries.
+
+Input: d = [3,1], r = [2,3]
+
+Output: 5
+
+Explanation:
+
+The first drone delivers at hours 1, 3, 5 (recharges at hours 2, 4).
+The second drone delivers at hour 2 (recharges at hour 3).
+*/
+
+class Solution {
+public:
+    long long gcd(long long a, long long b) {
+        while (b) {
+            a %= b;
+            std::swap(a, b);
+        }
+        return a;
+    }
+
+    long long lcm(long long a, long long b) {
+        if (a == 0 || b == 0) return 0;        
+        return (a / gcd(a, b)) * b;
+    }
+
+    bool canFinish(long long T, long long d1, long long d2, long long r1, long long r2) {
+        
+        long long common_lcm = lcm(r1, r2);
+        long long slots_1_only = (T / r2) - (T / common_lcm);
+        long long slots_2_only = (T / r1) - (T / common_lcm);
+        
+        long long slots_both = T - (T / r1) - (T / r2) + (T / common_lcm);
+
+        if (d1 > slots_1_only + slots_both) {
+            return false;
+        }
+
+        if (d2 > slots_2_only + slots_both) {
+            return false;
+        }
+
+        if (d1 + d2 > slots_1_only + slots_2_only + slots_both) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    long long minimumTime(vector<int>& d, vector<int>& r) {
+        long long d1 = d[0], d2 = d[1];
+        long long r1 = r[0], r2 = r[1];        
+        long long low = d1 + d2; 
+        long long high = 2e14; 
+        long long ans = high;
+
+        while (low <= high) {
+            long long mid = low + (high - low) / 2;
+            
+            if (canFinish(mid, d1, d2, r1, r2)) {
+                ans = mid;
+                high = mid - 1;
+            } else {                
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+};
