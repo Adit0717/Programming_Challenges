@@ -1,0 +1,59 @@
+class Solution {
+  public:
+    bool bfs(vector<vector<int>> &adjList, vector<int> &visited, int index) {
+        visited[index] = 1;
+        
+        queue<pair<int, int>> nodes;
+        nodes.push({-1, index});
+        
+        while(!nodes.empty()) {
+            int prev = nodes.front().first;
+            int curr = nodes.front().second;
+            
+            nodes.pop();
+            
+            for(int i = 0; i < adjList[curr].size(); i++) {
+                int ele = adjList[curr][i];
+                if(visited[ele] == 0) {
+                    visited[ele] = 1;
+                    nodes.push({curr, ele});
+                } else if(ele != prev) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    bool dfs(vector<vector<int>> &adjList, vector<int> &visited, int index, int prev) {
+        visited[index] = 1;
+        
+        for(auto ele : adjList[index]) {
+            if(visited[ele] == 0) {
+                if(dfs(adjList, visited, ele, index)) return true;
+            } else if(ele != prev) {
+                return true;
+            }
+        }
+    }
+    
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        vector<vector<int>> adjList(V);
+        
+        for(auto &ele : edges) {
+            adjList[ele[0]].push_back(ele[1]);
+            adjList[ele[1]].push_back(ele[0]);
+        }
+        
+        vector<int> visited(adjList.size(), 0);
+        
+        for(int i = 1; i < visited.size(); i++) {
+            if(visited[i] == 0) {
+                //bool ans = bfs(adjList, visited, i);
+                bool ans = dfs(adjList, visited, i, -1);
+                if(ans) return true;
+            }
+        }
+        return false;
+    }
+};

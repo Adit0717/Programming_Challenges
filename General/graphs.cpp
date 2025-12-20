@@ -1,5 +1,64 @@
-# include <iostream>
+# include <bits/stdc++.h>
 using namespace std;
+
+void cycleDetection() {
+	vector<vector<int>> edges = {{1, 2}, {1, 3}, {2, 5}, {3, 4}, {3, 6}, {5, 7}, {6, 7}};
+
+	vector<vector<int>> adjList(edges.size() + 1);
+
+	for(auto ele : edges) {
+		adjList[ele[0]].push_back(ele[1]);
+		adjList[ele[1]].push_back(ele[0]);
+	}
+
+	/*
+	for(int i = 0; i < adjList.size(); i++) {		
+		cout << i << " -> {";
+		
+		for(int j = 0; j < adjList[i].size(); j++) {
+		 	string str = ", ";
+		 	if(j == adjList[i].size() - 1) str = "";
+		 	cout << adjList[i][j] << str;
+		}
+		
+		cout << "}" << endl;		
+	}
+	*/
+
+	vector<int> visited(edges.size() + 1, 0);
+	queue<pair<int, int>> nodes;
+	nodes.push({-1, 1});
+	visited[1] = 1;
+
+	while(!nodes.empty()) {
+		int prev = nodes.front().first, curr = nodes.front().second;
+		nodes.pop();
+
+		for(int i = 0; i < adjList[curr].size(); i++) {
+			int ele = adjList[curr][i];
+			if(ele != prev) {							
+				if(visited[ele] == 0) {
+					nodes.push({curr, ele});
+					visited[ele] = 1;
+				} else {
+					cout << "Cycle exists";
+					return;
+				}
+			}
+		}
+	}
+	cout << "Cycle does not exist";
+}
+
+{{1, 2}, {1, 3}, {2, 5}, {3, 4}, {3, 6}, {5, 7}, {6, 7}};
+
+1 - 2, 3
+2 - 1, 5
+3 - 1, 4
+4 - 3
+5 - 2, 7
+6 - 3, 7
+7 - 5, 6
 
 int main() {
 
@@ -26,7 +85,7 @@ int main() {
 	}
 	*/
 
-	/* Adjacency List; Space - O(2 * Edges) */
+	/* Adjacency List; Space - O(2 * Edges) 
 	vector<vector<int>> adjList(nodes + 1);
 
 	for(int i = 0; i < list.size(); i++) {
@@ -47,31 +106,9 @@ int main() {
 		
 		cout << "}" << endl;		
 	}
+	*/
+
+	cycleDetection();
 
 	return 0;
-}
-
-int solve(int index, vector<int>& heights, vector<int> &dp) {
-	if(index <= 0) return 0;
-
-	if(!dp[index] != -1) {
-		return dp[index];
-	}
-
-	int ans = INT_MAX;
-	for(int i = 1; i < k; i++) {
-		if(k <= index) {
-			int oneStep = solve(index - i, heights) + abs(heights[index] - heights[index - k]);	
-		}		
-		ans = min(ans, oneStep);
-	}	
-
-	return dp[index] = ans;
-}
-
-int frogJump(int n, vector<int>& heights) {
-	vector<int> dp(n + 1, -1);
-	int time = solve(n - 1, heights, dp);
-
-	return time;
 }
